@@ -20,9 +20,8 @@ const createItem = (req, res) => {
     console.error(err);
     if (err.name === "ValidationError") {
       return res.status(BAD_REQUEST).send({ message: err.message });
-    } else {
-      return res.status(SERVER_ERROR).send({ message: "An error has occurred on the server" });
     }
+      return res.status(SERVER_ERROR).send({ message: "An error has occurred on the server" });
   });
 };
 
@@ -36,7 +35,7 @@ const deleteItem = (req, res) => {
     console.error(err);
     if (err.name === "DocumentNotFoundError") {
       return res.status(NOT_FOUND).send({ message: err.message });
-    } else if (err.name === "CastError") {
+    } if (err.name === "CastError") {
       return res.status(BAD_REQUEST).send({ message: err.message });
     } else {
       return res.status(SERVER_ERROR).send({ message: "An error has occurred on the server" });
@@ -60,7 +59,7 @@ const likeItem = (req, res) => {
     console.error(err);
     if (err.name === "DocumentNotFoundError") {
       return res.status(NOT_FOUND).send({ message: err.message });
-    } else if (err.name === "CastError") {
+    } if (err.name === "CastError") {
       return res.status(BAD_REQUEST).send({ message: err.message });
     } else {
       return res.status(SERVER_ERROR).send({ message: "An error has occurred on the server" });
@@ -84,7 +83,7 @@ const dislikeItem = (req, res) => {
     console.error(err);
     if (err.name === "DocumentNotFoundError") {
       return res.status(NOT_FOUND).send({ message: err.message });
-    } else if (err.name === "CastError") {
+    } if (err.name === "CastError") {
       return res.status(BAD_REQUEST).send({ message: err.message });
     } else {
       return res.status(SERVER_ERROR).send({ message: "An error has occurred on the server" });
