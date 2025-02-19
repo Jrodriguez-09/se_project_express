@@ -37,9 +37,8 @@ const deleteItem = (req, res) => {
       return res.status(NOT_FOUND).send({ message: err.message });
     } if (err.name === "CastError") {
       return res.status(BAD_REQUEST).send({ message: err.message });
-    } else {
-      return res.status(SERVER_ERROR).send({ message: "An error has occurred on the server" });
     }
+      return res.status(SERVER_ERROR).send({ message: "An error has occurred on the server" });
   });
 };
 
@@ -61,9 +60,8 @@ const likeItem = (req, res) => {
       return res.status(NOT_FOUND).send({ message: err.message });
     } if (err.name === "CastError") {
       return res.status(BAD_REQUEST).send({ message: err.message });
-    } else {
-      return res.status(SERVER_ERROR).send({ message: "An error has occurred on the server" });
     }
+      return res.status(SERVER_ERROR).send({ message: "An error has occurred on the server" });
   });
 };
 
@@ -85,9 +83,8 @@ const dislikeItem = (req, res) => {
       return res.status(NOT_FOUND).send({ message: err.message });
     } if (err.name === "CastError") {
       return res.status(BAD_REQUEST).send({ message: err.message });
-    } else {
-      return res.status(SERVER_ERROR).send({ message: "An error has occurred on the server" });
     }
+      return res.status(SERVER_ERROR).send({ message: "An error has occurred on the server" });
 });
 };
 
