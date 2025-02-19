@@ -56,7 +56,7 @@ const likeItem = (req, res) => {
   .then((item) => res.status(200).send(item))
   .catch((err) => {
     console.error(err);
-    if (err.name === NOT_FOUND) {
+    if (err.statusCode === NOT_FOUND) {
       return res.status(NOT_FOUND).send({ message: err.message });
     } if (err.name === "CastError") {
       return res.status(BAD_REQUEST).send({ message: err.message });
@@ -79,7 +79,7 @@ const dislikeItem = (req, res) => {
   .then((item) => res.status(200).send(item))
   .catch((err) => {
     console.error(err);
-    if (err.name === NOT_FOUND) {
+    if (err.statusCode === NOT_FOUND) {
       return res.status(NOT_FOUND).send({ message: err.message });
     } if (err.name === "CastError") {
       return res.status(BAD_REQUEST).send({ message: err.message });
