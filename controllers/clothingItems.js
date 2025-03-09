@@ -1,5 +1,5 @@
 const clothingItem = require("../models/clothingItem");
-const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require("../utils/errors");
+const { BAD_REQUEST, FORBIDDEN_ERROR, NOT_FOUND, SERVER_ERROR } = require("../utils/errors");
 
 const getItems = (req, res) => {
   clothingItem.find({})
@@ -27,6 +27,19 @@ const createItem = (req, res) => {
 
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
+  const itemOwner = req.user._id;
+
+  clothingItem.findById(itemId)
+  .orFail(() => {
+    const error = new Error("Item not found");
+    error.statusCode = NOT_FOUND;
+    throw error;
+  })
+  .then((item) => {
+    if (item.owner.toString() !== itemOwner) {
+      return res.status(FORBIDDEN_ERROR).send({ message: err.message });
+    }
+  })
 
   clothingItem.findByIdAndDelete(itemId)
   .orFail()
