@@ -42,14 +42,17 @@ const updateUser = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  const { name, avatar } = req.body;
-
-  User.create({ name, avatar })
-  .then((user) => res.status(201).send(user))
+  const { name, avatar, email, password } = req.body;
+  bcrypt.hash(password, 10)
+  .then((hash) => User.create({ name, avatar, email, password: hash }))
+  .then((user) => res.send(user))
   .catch((err) => {
     console.error(err);
     if (err.name === "ValidationError") {
       return res.status(BAD_REQUEST).send({ message: err.message });
+    }
+    if (err.code === 11000) {
+      return res.status(CONFLICT_ERROR).send({ message: "This email already exist" });
     }
       return res.status(SERVER_ERROR).send({ message: "An error has occurred on the server" });
   });
@@ -58,6 +61,22 @@ const createUser = (req, res) => {
 const login = (req, res) => {
   const { email, password } = req.body;
 
-}
+  if (!email || !password) {
+    return res.status(BAD_REQUEST).send({ message: "Email and Password required" });
+  }
+
+  User.findUserByCredentials(email, password)
+  .then((user) => {
+    const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: "7d" });
+      return res.status(200).send({ token });
+  })
+  .catch((err) => {
+    console.error(err);
+    if (err.name === "Invalid email or password") {
+      return res.status(UNAUTHORIZED_ERROR).send({ message: err.message });
+    }
+      return res.status(SERVER_ERROR).send({ message: "An error has occurred on the server" });
+  });
+};
 
 module.exports = { getCurrentUser, updateUser, createUser, login };
