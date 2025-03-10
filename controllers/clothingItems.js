@@ -37,16 +37,15 @@ const deleteItem = (req, res) => {
   })
   .then((item) => {
     if (item.owner.toString() !== itemOwner) {
-      return res.status(FORBIDDEN_ERROR).send({ message: err.message });
+      return res.status(FORBIDDEN_ERROR).send({ message: "Forbidden error" });
     }
+    clothingItem.findByIdAndDelete(itemId)
   })
-
-  clothingItem.findByIdAndDelete(itemId)
   .orFail()
-  .then((item) => res.status(200).send(item))
+  .then((deletedItem) => res.status(200).send(deletedItem))
   .catch((err) => {
     console.error(err);
-    if (err.name === "DocumentNotFoundError") {
+    if (err.statusCode === NOT_FOUND) {
       return res.status(NOT_FOUND).send({ message: err.message });
     } if (err.name === "CastError") {
       return res.status(BAD_REQUEST).send({ message: err.message });

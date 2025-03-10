@@ -5,9 +5,9 @@ const bcrypt = require("bcryptjs");
 const { JWT_SECRET } = require("../utils/config");
 
 const getCurrentUser = (req, res) => {
-  const { userId } = req.user;
+  const { _id } = req.user;
 
-  User.findById(userId)
+  User.findById(_id)
   .orFail()
   .then((user) => res.status(200).send(user))
   .catch((err) => {
@@ -23,9 +23,9 @@ const getCurrentUser = (req, res) => {
 
 const updateUser = (req, res) => {
   const { name, avatar } = req.body;
-  const { userId } = req.user;
+  const { _id } = req.user;
 
-  User.findByIdAndUpdate(userId, { name, avatar }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(_id, { name, avatar }, { new: true, runValidators: true })
   .then((updateUser) => {
     if (!updateUser) {
       return res.status(NOT_FOUND).send({ message: err.message });
@@ -45,7 +45,9 @@ const createUser = (req, res) => {
   const { name, avatar, email, password } = req.body;
   bcrypt.hash(password, 10)
   .then((hash) => User.create({ name, avatar, email, password: hash }))
-  .then((user) => res.send(user))
+  .then((user) => {
+    res.status(201).send({ name: user.name, avatar: user.avatar, email: user.email });
+  })
   .catch((err) => {
     console.error(err);
     if (err.name === "ValidationError") {
@@ -72,7 +74,7 @@ const login = (req, res) => {
   })
   .catch((err) => {
     console.error(err);
-    if (err.name === "Invalid email or password") {
+    if (err.message === "Invalid email or password.") {
       return res.status(UNAUTHORIZED_ERROR).send({ message: err.message });
     }
       return res.status(SERVER_ERROR).send({ message: "An error has occurred on the server" });
