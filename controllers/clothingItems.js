@@ -29,7 +29,7 @@ const deleteItem = (req, res) => {
   const { itemId } = req.params;
   const itemOwner = req.user._id;
 
-  clothingItem.findById(itemId)
+   clothingItem.findById(itemId)
   .orFail(() => {
     const error = new Error("Item not found");
     error.statusCode = NOT_FOUND;
@@ -39,7 +39,7 @@ const deleteItem = (req, res) => {
     if (item.owner.toString() !== itemOwner) {
       return res.status(FORBIDDEN_ERROR).send({ message: "Forbidden error" });
     }
-    clothingItem.findByIdAndDelete(itemId)
+    return clothingItem.findByIdAndDelete(itemId)
   })
   .orFail()
   .then((deletedItem) => res.status(200).send(deletedItem))

@@ -67,7 +67,7 @@ const login = (req, res) => {
     return res.status(BAD_REQUEST).send({ message: "Email and Password required" });
   }
 
-  User.findUserByCredentials(email, password)
+   return User.findUserByCredentials(email, password)
   .then((user) => {
     const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: "7d" });
       return res.status(200).send({ token });
