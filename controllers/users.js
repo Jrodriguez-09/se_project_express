@@ -26,9 +26,9 @@ const updateUser = (req, res) => {
   const { _id } = req.user;
 
   User.findByIdAndUpdate(_id, { name, avatar }, { new: true, runValidators: true })
-  .then((updateUser) => {
-    if (!updateUser) {
-      return res.status(NOT_FOUND).send({ message: err.message });
+  .then((updatedUser) => {
+    if (!updatedUser) {
+      return res.status(NOT_FOUND).send({ message: "User not found." });
     }
       return res.status(200).send(updateUser);
   })
