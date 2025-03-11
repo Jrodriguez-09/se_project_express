@@ -40,9 +40,8 @@ const deleteItem = (req, res) => {
       return res.status(FORBIDDEN_ERROR).send({ message: "Forbidden error" });
     }
     return clothingItem.findByIdAndDelete(itemId)
+      .then((deletedItem) => res.status(200).send(deletedItem))
   })
-  .orFail()
-  .then((deletedItem) => res.status(200).send(deletedItem))
   .catch((err) => {
     console.error(err);
     if (err.statusCode === NOT_FOUND) {

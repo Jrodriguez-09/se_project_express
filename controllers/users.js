@@ -30,7 +30,7 @@ const updateUser = (req, res) => {
     if (!updatedUser) {
       return res.status(NOT_FOUND).send({ message: "User not found." });
     }
-      return res.status(200).send(updateUser);
+      return res.status(200).send(updatedUser);
   })
   .catch((err) => {
     console.error(err);
