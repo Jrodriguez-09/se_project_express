@@ -13,3 +13,7 @@ Postman/Github Actions - used for testing
 
 #### Testing
 Sprint 12 and 13. 
+
+##### Deployment 
+
+Link - "https://wtwr-pjt.jumpingcrab.com"
