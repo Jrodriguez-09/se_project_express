@@ -1,11 +1,11 @@
 const router = require("express").Router();
 const userRouter = require("./users");
 const clothingItemRouter = require("./clothingItems");
-const { NotFoundError } = require("../utils/errors");
+const { NotFoundError } = require("../utils/NotFoundError");
 const { createUser, login } = require("../controllers/users");
 const { validateUserBody, validateAuthentication } = require("../middlewares/validation");
 
-app.get('/crash-test', () => {
+router.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Server will crash now');
   }, 0);
